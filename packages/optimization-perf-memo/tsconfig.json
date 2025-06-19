@@ -1,0 +1,12 @@
+{
+  "extends": "../../core/ts-config/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "composite": true,
+    "jsx": "preserve"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "references": [
+    { "path": "../../core/utils" }
+  ]
+} 
