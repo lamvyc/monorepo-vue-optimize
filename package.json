@@ -12,9 +12,19 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "lint": "eslint . --ext .vue,.ts --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@commitlint/cz-commitlint": "^19.0.0",
+    "commitizen": "^4.3.0",
     "eslint": "^8.57.0",
     "husky": "^9.0.0",
     "lint-staged": "^14.0.0",
