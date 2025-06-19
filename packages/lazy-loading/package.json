@@ -1,5 +1,5 @@
 {
-  "name": "@vue-monorepo/main-app",
+  "name": "@vue-monorepo/lazy-loading",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,11 +9,8 @@
   },
   "dependencies": {
     "vue": "^3.4.0",
-    "vue-router": "^4.2.0",
     "element-plus": "^2.4.0",
-    "@element-plus/icons-vue": "^2.1.0",
-    "@vue-monorepo/optimization-perf-memo": "workspace:*",
-    "@vue-monorepo/lazy-loading": "workspace:*"
+    "@element-plus/icons-vue": "^2.1.0"
   },
   "devDependencies": {
     "vite": "^5.1.0",

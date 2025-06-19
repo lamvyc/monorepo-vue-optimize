@@ -81,4 +81,90 @@ rules: {
   "vue/prefer-import-from-vue": "error",
   "vue/multi-word-component-names": "off"
 }
-``` 
+```
+
+## Git 配置与规范
+
+### 配置说明
+项目包含以下 Git 相关配置：
+
+1. **完整的 .gitignore 配置**
+   - 忽略依赖目录 (node_modules)
+   - 忽略构建输出 (dist)
+   - 忽略日志文件
+   - 忽略编辑器配置
+   - 忽略环境变量文件
+
+2. **Commitlint 配置**
+   - 强制规范提交信息格式
+   - 集成在 Git hooks 中自动运行
+
+3. **Husky Git Hooks**
+   - commit-msg: 验证提交信息
+   - pre-commit: 运行 lint-staged
+
+4. **Lint-staged 配置**
+   - 提交前自动格式化代码
+   - 对不同文件类型使用对应的格式化工具：
+     ```js
+     // .lintstagedrc.js
+     {
+       '*.{js,jsx,ts,tsx,vue}': ['eslint --fix', 'prettier --write'],
+       '*.{css,scss,less,styl,html}': ['prettier --write'],
+       '*.{json,md}': ['prettier --write']
+     }
+     ```
+
+5. **Commitizen 工具**
+   - 提供交互式提交信息生成
+
+### 提交代码
+有两种方式可以提交代码：
+
+1. **使用交互式提交工具**
+   ```bash
+   pnpm commit
+   ```
+   按照提示填写提交信息。
+
+2. **直接使用 git commit**
+   ```bash
+   git commit -m "type: message"
+   ```
+   需要遵循提交规范。
+
+### 提交类型
+提交信息必须以下列类型之一开头：
+
+| 类型 | 说明 |
+|------|------|
+| feat | 新功能 |
+| fix | 修复 bug |
+| docs | 文档变更 |
+| style | 代码格式（不影响代码运行的变动） |
+| refactor | 重构（既不是新增功能，也不是修改 bug 的代码变动） |
+| perf | 性能优化 |
+| test | 增加测试 |
+| build | 构建系统或外部依赖变更 |
+| ci | CI 配置变更 |
+| chore | 其他修改（不修改 src 或测试文件） |
+| revert | 回滚到上一个版本 |
+
+### 提交信息格式
+```
+type: subject
+
+body
+
+footer
+```
+
+示例：
+```bash
+feat: 添加用户登录功能
+
+- 实现用户名密码登录
+- 添加登录表单验证
+- 集成 JWT 认证
+
+Closes #123 
