@@ -6,7 +6,5 @@
     "jsx": "preserve"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [
-    { "path": "../../core/utils" }
-  ]
-} 
+  "references": [{ "path": "../../core/utils" }]
+}

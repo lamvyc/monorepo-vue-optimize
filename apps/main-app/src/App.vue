@@ -9,11 +9,12 @@
 </template>
 
 <script setup lang="ts">
-import { ElConfigProvider } from 'element-plus'
+import { ElConfigProvider } from 'element-plus';
 </script>
 
 <style>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -21,8 +22,9 @@ html, body {
 
 #app {
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-family:
+    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
+    Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,6 +41,6 @@ html, body {
 
 /* 添加 Element Plus 全局样式覆盖 */
 :root {
-  --el-color-primary: #409EFF;
+  --el-color-primary: #409eff;
 }
-</style> 
+</style>

@@ -1,6 +1,6 @@
 <template>
-  <div 
-    v-show="visible" 
+  <div
+    v-show="visible"
     class="back-to-top"
     @click="scrollToTop"
     :style="{ bottom: offset + 'px', right: right + 'px' }"
@@ -10,72 +10,74 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Top } from '@element-plus/icons-vue'
+import { ref, onMounted, onUnmounted } from 'vue';
+import { Top } from '@element-plus/icons-vue';
 
-const props = withDefaults(defineProps<{
-  visibilityHeight?: number
-  right?: number
-  offset?: number
-  duration?: number
-}>(), {
-  visibilityHeight: 400,
-  right: 40,
-  offset: 40,
-  duration: 300
-})
+const props = withDefaults(
+  defineProps<{
+    visibilityHeight?: number;
+    right?: number;
+    offset?: number;
+    duration?: number;
+  }>(),
+  {
+    visibilityHeight: 400,
+    right: 40,
+    offset: 40,
+    duration: 300,
+  },
+);
 
-const visible = ref(false)
+const visible = ref(false);
 
 // 节流函数
 const throttle = (fn: Function, delay: number) => {
-  let timer: NodeJS.Timeout | null = null
+  let timer: NodeJS.Timeout | null = null;
   return (...args: any[]) => {
-    if (timer) return
+    if (timer) return;
     timer = setTimeout(() => {
-      fn.apply(this, args)
-      timer = null
-    }, delay)
-  }
-}
+      fn.apply(this, args);
+      timer = null;
+    }, delay);
+  };
+};
 
 // 检查是否显示按钮
 const checkScroll = () => {
-  visible.value = window.pageYOffset > props.visibilityHeight
-}
+  visible.value = window.pageYOffset > props.visibilityHeight;
+};
 
 // 滚动到顶部
 const scrollToTop = () => {
-  const startPosition = window.pageYOffset
-  const startTime = performance.now()
-  
+  const startPosition = window.pageYOffset;
+  const startTime = performance.now();
+
   const animate = (currentTime: number) => {
-    const timeElapsed = currentTime - startTime
-    const progress = Math.min(timeElapsed / props.duration, 1)
-    
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / props.duration, 1);
+
     // easeInOutQuad 缓动函数
-    const ease = (t: number) => 
-      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-    
-    window.scrollTo(0, startPosition * (1 - ease(progress)))
-    
+    const ease = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+    window.scrollTo(0, startPosition * (1 - ease(progress)));
+
     if (progress < 1) {
-      requestAnimationFrame(animate)
+      requestAnimationFrame(animate);
     }
-  }
-  
-  requestAnimationFrame(animate)
-}
+  };
+
+  requestAnimationFrame(animate);
+};
 
 // 添加滚动监听
 onMounted(() => {
-  window.addEventListener('scroll', throttle(checkScroll, 200))
-})
+  window.addEventListener('scroll', throttle(checkScroll, 200));
+});
 
 // 移除滚动监听
 onUnmounted(() => {
-  window.removeEventListener('scroll', throttle(checkScroll, 200))
-})
+  window.removeEventListener('scroll', throttle(checkScroll, 200));
+});
 </script>
 
 <style scoped>
@@ -98,4 +100,4 @@ onUnmounted(() => {
   background-color: var(--el-color-primary-light-3);
   transform: translateY(-2px);
 }
-</style> 
+</style>

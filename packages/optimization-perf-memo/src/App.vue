@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import MemoList from './components/MemoList.vue'
+import MemoList from './components/MemoList.vue';
 </script>
 
 <style>
@@ -20,7 +20,7 @@ import MemoList from './components/MemoList.vue'
 }
 
 h1 {
-  color: #409EFF;
+  color: #409eff;
   text-align: center;
 }
 
@@ -34,4 +34,4 @@ h1 {
   background: #f8f9fa;
   border-radius: 8px;
 }
-</style> 
+</style>

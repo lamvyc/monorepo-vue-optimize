@@ -4,7 +4,7 @@
     <div class="content">
       <h1>Vue3 性能优化示例</h1>
       <p>这个项目展示了 Vue3 中的各种性能优化技术：</p>
-      
+
       <el-card class="feature-card">
         <template #header>
           <div class="card-header">
@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import Navigation from '../components/Navigation.vue'
-import BackToTop from '../components/BackToTop.vue'
+import Navigation from '../components/Navigation.vue';
+import BackToTop from '../components/BackToTop.vue';
 </script>
 
 <style scoped>
@@ -64,4 +64,4 @@ p {
   color: var(--el-text-color-regular);
   line-height: 1.6;
 }
-</style> 
+</style>

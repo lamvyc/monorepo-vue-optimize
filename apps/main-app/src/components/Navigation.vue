@@ -1,10 +1,5 @@
 <template>
-  <el-menu
-    :router="true"
-    mode="horizontal"
-    :ellipsis="false"
-    class="navigation"
-  >
+  <el-menu :router="true" mode="horizontal" :ellipsis="false" class="navigation">
     <el-menu-item index="/">
       <el-icon><House /></el-icon>
       首页
@@ -22,12 +17,16 @@
         <el-icon><Loading /></el-icon>
         懒加载优化
       </el-menu-item>
+      <el-menu-item index="/state-management">
+        <el-icon><Management /></el-icon>
+        状态管理优化
+      </el-menu-item>
     </el-sub-menu>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import { House, Monitor, Memo, Loading } from '@element-plus/icons-vue'
+import { House, Monitor, Memo, Loading, Management } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>
@@ -41,4 +40,4 @@ import { House, Monitor, Memo, Loading } from '@element-plus/icons-vue'
   height: 20px !important;
   font-size: 20px !important;
 }
-</style> 
+</style>

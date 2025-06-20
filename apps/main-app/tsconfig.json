@@ -4,4 +4,4 @@
     "types": ["vite/client"]
   },
   "include": ["src/**/*"]
-} 
+}

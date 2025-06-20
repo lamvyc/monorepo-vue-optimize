@@ -4,13 +4,13 @@
       <div v-for="(chart, index) in charts" :key="index" class="chart-wrapper">
         <h3>{{ chart.title }}</h3>
         <div class="chart-content">
-          <div 
-            v-for="(item, itemIndex) in chart.data" 
+          <div
+            v-for="(item, itemIndex) in chart.data"
             :key="itemIndex"
             class="chart-bar"
-            :style="{ 
+            :style="{
               width: item.value + '%',
-              backgroundColor: getRandomColor()
+              backgroundColor: getRandomColor(),
             }"
           >
             {{ item.label }}: {{ item.value }}%
@@ -21,8 +21,8 @@
 
     <div class="data-grid">
       <div v-for="(row, rowIndex) in gridData" :key="rowIndex" class="data-row">
-        <div 
-          v-for="(cell, cellIndex) in row" 
+        <div
+          v-for="(cell, cellIndex) in row"
           :key="cellIndex"
           class="data-cell"
           :style="{ backgroundColor: getRandomColor(0.1) }"
@@ -35,43 +35,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 
 // 生成随机图表数据
 const generateChartData = (count: number) => {
   return Array.from({ length: count }, (_, i) => ({
     label: `Item ${i + 1}`,
-    value: Math.floor(Math.random() * 100)
-  }))
-}
+    value: Math.floor(Math.random() * 100),
+  }));
+};
 
 // 生成多个图表
 const charts = ref([
   { title: '性能指标', data: generateChartData(8) },
   { title: '资源使用', data: generateChartData(6) },
-  { title: '用户统计', data: generateChartData(10) }
-])
+  { title: '用户统计', data: generateChartData(10) },
+]);
 
 // 生成网格数据
 const gridData = ref(
-  Array.from({ length: 20 }, (_, i) => 
-    Array.from({ length: 5 }, (_, j) => 
-      `Data ${i * 5 + j + 1}`
-    )
-  )
-)
+  Array.from({ length: 20 }, (_, i) =>
+    Array.from({ length: 5 }, (_, j) => `Data ${i * 5 + j + 1}`),
+  ),
+);
 
 // 生成随机颜色
 const getRandomColor = (alpha = 0.6) => {
-  const hue = Math.floor(Math.random() * 360)
-  return `hsla(${hue}, 70%, 50%, ${alpha})`
-}
+  const hue = Math.floor(Math.random() * 360);
+  return `hsla(${hue}, 70%, 50%, ${alpha})`;
+};
 
 // 模拟组件初始化延迟
 onMounted(() => {
   // 这里可以添加实际的初始化逻辑
-  console.log('Heavy component mounted')
-})
+  console.log('Heavy component mounted');
+});
 </script>
 
 <style scoped>
@@ -144,4 +142,4 @@ h3 {
   margin: 0 0 15px 0;
   color: var(--el-text-color-primary);
 }
-</style> 
+</style>

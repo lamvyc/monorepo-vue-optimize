@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
-    }
+      '@': resolve(__dirname, './src'),
+    },
   },
   optimizeDeps: {
-    include: ['vue', 'vue-router', 'element-plus']
+    include: ['vue', 'vue-router', 'element-plus'],
   },
   server: {
     port: 5173,
@@ -18,4 +18,4 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-}); 
+});

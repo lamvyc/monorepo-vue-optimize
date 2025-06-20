@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/Home.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -7,19 +7,24 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/memo',
       name: 'memo',
-      component: () => import('./OptiPerfMemo.vue')
+      component: () => import('./OptiPerfMemo.vue'),
     },
     {
       path: '/lazy-loading',
       name: 'lazy-loading',
-      component: () => import('./LazyLoading.vue')
-    }
-  ]
-})
+      component: () => import('./LazyLoading.vue'),
+    },
+    {
+      path: '/state-management',
+      name: 'state-management',
+      component: () => import('./StateManagement.vue'),
+    },
+  ],
+});
 
-export default router 
+export default router;

@@ -13,7 +13,9 @@
     "test": "pnpm -r test",
     "lint": "eslint . --ext .vue,.ts --fix",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "prettier --write \"**/*.{js,ts,vue,json,md}\""
   },
   "config": {
     "commitizen": {
@@ -29,6 +31,7 @@
     "husky": "^9.0.0",
     "lint-staged": "^14.0.0",
     "prettier": "^3.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@types/node": "^18.0.0"
   }
 }

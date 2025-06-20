@@ -28,6 +28,7 @@ const AsyncHeavyComponent = defineAsyncComponent(() =>
 ```
 
 ### 优化效果
+
 - 初始加载时不会加载大型组件的代码
 - 组件会被单独打包成独立的 chunk
 - 只有在需要时才会加载组件代码
@@ -47,42 +48,43 @@ export function useIntersectionObserver(
   options: IntersectionObserverInit = {
     root: null,
     rootMargin: '0px',
-    threshold: 0
-  }
+    threshold: 0,
+  },
 ) {
-  let observer: IntersectionObserver | null = null
+  let observer: IntersectionObserver | null = null;
 
   onMounted(() => {
-    if (!elementRef.value) return
-    observer = new IntersectionObserver(callback, options)
-    observer.observe(elementRef.value)
-  })
+    if (!elementRef.value) return;
+    observer = new IntersectionObserver(callback, options);
+    observer.observe(elementRef.value);
+  });
 
   const stop = () => {
     if (observer) {
-      observer.disconnect()
-      observer = null
+      observer.disconnect();
+      observer = null;
     }
-  }
+  };
 
-  return { stop }
+  return { stop };
 }
 
 // 2. LazyImage 组件中的使用
 const { stop } = useIntersectionObserver(imageRef, ([entry]) => {
   if (entry.isIntersecting) {
     // 图片进入视口时才开始加载
-    const img = entry.target.querySelector('img')
+    const img = entry.target.querySelector('img');
     if (img && !img.src) {
-      img.src = props.src
+      img.src = props.src;
     }
     // 停止观察
-    stop()
+    stop();
   }
-})
+});
 ```
 
 ### 优化效果
+
 - 图片只在进入视口时才开始加载
 - 减少初始页面加载时的资源请求
 - 节省带宽和提高页面加载速度
@@ -92,6 +94,7 @@ const { stop } = useIntersectionObserver(imageRef, ([entry]) => {
 ## 使用方式
 
 ### 组件懒加载
+
 ```vue
 <template>
   <div class="section">
@@ -106,18 +109,17 @@ const { stop } = useIntersectionObserver(imageRef, ([entry]) => {
 ```
 
 ### 图片懒加载
+
 ```vue
 <template>
-  <LazyImage
-    :src="imageUrl"
-    :alt="imageAlt"
-  />
+  <LazyImage :src="imageUrl" :alt="imageAlt" />
 </template>
 ```
 
 ## 注意事项
 
 1. 组件懒加载
+
    - 确保使用 `Suspense` 组件包裹异步组件
    - 提供合适的加载占位内容
    - 考虑加载失败的处理
@@ -131,4 +133,4 @@ const { stop } = useIntersectionObserver(imageRef, ([entry]) => {
 
 - 组件懒加载适用于较大的组件或不是首屏必需的组件
 - 图片懒加载特别适合长列表或图片画廊场景
-- 合理设置 Intersection Observer 的 rootMargin 可以提供更好的用户体验 
+- 合理设置 Intersection Observer 的 rootMargin 可以提供更好的用户体验

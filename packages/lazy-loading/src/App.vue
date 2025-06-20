@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>懒加载优化示例</h1>
-    
+
     <el-tabs v-model="activeTab" class="demo-tabs">
       <el-tab-pane label="组件懒加载" name="component">
         <div class="section">
@@ -10,11 +10,9 @@
             <el-button @click="loadHeavyComponent" :loading="isLoading" type="primary">
               {{ isComponentLoaded ? '切换显示/隐藏' : '加载大型组件' }}
             </el-button>
-            <el-button @click="resetComponent" v-if="isComponentLoaded">
-              重置组件
-            </el-button>
+            <el-button @click="resetComponent" v-if="isComponentLoaded"> 重置组件 </el-button>
           </div>
-          
+
           <Suspense v-if="showComponent">
             <template #default>
               <component :is="AsyncHeavyComponent" />
@@ -33,14 +31,10 @@
           <p>滚动页面查看图片懒加载效果：</p>
           <div class="image-container">
             <template v-for="(image, index) in images" :key="index">
-              <LazyImage
-                :src="image"
-                :alt="'Image ' + (index + 1)"
-                class="lazy-image"
-              />
+              <LazyImage :src="image" :alt="'Image ' + (index + 1)" class="lazy-image" />
             </template>
           </div>
-          
+
           <div class="load-more-container">
             <el-button type="primary" @click="loadMore" :loading="isLoadingMore">
               加载更多图片
@@ -53,43 +47,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineAsyncComponent } from 'vue'
-import LazyImage from './components/LazyImage.vue'
+import { ref, defineAsyncComponent } from 'vue';
+import LazyImage from './components/LazyImage.vue';
 
-const activeTab = ref('component')
+const activeTab = ref('component');
 
 // 使用 defineAsyncComponent 定义异步组件
-const AsyncHeavyComponent = defineAsyncComponent(() =>
-  import('./components/HeavyComponent.vue')
-)
+const AsyncHeavyComponent = defineAsyncComponent(() => import('./components/HeavyComponent.vue'));
 
-const isLoading = ref(false)
-const isComponentLoaded = ref(false)
-const showComponent = ref(false)
+const isLoading = ref(false);
+const isComponentLoaded = ref(false);
+const showComponent = ref(false);
 
 const loadHeavyComponent = async () => {
   if (isComponentLoaded.value) {
     // 如果组件已加载，则切换显示/隐藏
-    showComponent.value = !showComponent.value
-    return
+    showComponent.value = !showComponent.value;
+    return;
   }
-  
-  isLoading.value = true
+
+  isLoading.value = true;
   try {
     // 标记组件为已加载状态
-    isComponentLoaded.value = true
-    showComponent.value = true
+    isComponentLoaded.value = true;
+    showComponent.value = true;
   } catch (error) {
-    console.error('Failed to load component:', error)
+    console.error('Failed to load component:', error);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 const resetComponent = () => {
-  isComponentLoaded.value = false
-  showComponent.value = false
-}
+  isComponentLoaded.value = false;
+  showComponent.value = false;
+};
 
 // 图片数组
 const images = ref([
@@ -97,25 +89,26 @@ const images = ref([
   'https://picsum.photos/800/400?random=2',
   'https://picsum.photos/800/400?random=3',
   'https://picsum.photos/800/400?random=4',
-  'https://picsum.photos/800/400?random=5'
-])
+  'https://picsum.photos/800/400?random=5',
+]);
 
-const isLoadingMore = ref(false)
+const isLoadingMore = ref(false);
 
 const loadMore = async () => {
-  isLoadingMore.value = true
+  isLoadingMore.value = true;
   // 模拟加载延迟
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   // 添加新的图片
-  const startIndex = images.value.length + 1
-  const newImages = Array.from({ length: 5 }, (_, i) => 
-    `https://picsum.photos/800/400?random=${startIndex + i}`
-  )
-  
-  images.value.push(...newImages)
-  isLoadingMore.value = false
-}
+  const startIndex = images.value.length + 1;
+  const newImages = Array.from(
+    { length: 5 },
+    (_, i) => `https://picsum.photos/800/400?random=${startIndex + i}`,
+  );
+
+  images.value.push(...newImages);
+  isLoadingMore.value = false;
+};
 </script>
 
 <style scoped>
@@ -189,4 +182,4 @@ h1 {
   border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
-</style> 
+</style>
