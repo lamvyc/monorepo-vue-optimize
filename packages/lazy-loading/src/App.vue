@@ -1,31 +1,51 @@
 <template>
-  <div class="app-container">
-    <el-tabs v-model="activeTab">
-      <el-tab-pane label="图片懒加载" name="images">
-        <div class="image-grid">
-          <lazy-image v-for="(url, index) in imageUrls" :key="index" :src="url" />
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="组件懒加载" name="components">
-        <div class="components-container">
-          <el-button @click="loadMore">加载更多数据</el-button>
-          <Suspense>
+  <div class="container">
+    <h1>懒加载优化示例</h1>
+    
+    <el-tabs v-model="activeTab" class="demo-tabs">
+      <el-tab-pane label="组件懒加载" name="component">
+        <div class="section">
+          <p>点击下方按钮加载大型组件，观察网络面板中的 chunk 加载情况：</p>
+          <div class="button-group">
+            <el-button @click="loadHeavyComponent" :loading="isLoading" type="primary">
+              {{ isComponentLoaded ? '切换显示/隐藏' : '加载大型组件' }}
+            </el-button>
+            <el-button @click="resetComponent" v-if="isComponentLoaded">
+              重置组件
+            </el-button>
+          </div>
+          
+          <Suspense v-if="showComponent">
             <template #default>
-              <div class="heavy-components">
-                <AsyncHeavyComponent
-                  v-for="(item, index) in heavyComponentsData"
-                  :key="index"
-                  :title="item.title"
-                  :data="item.data"
-                />
-              </div>
+              <component :is="AsyncHeavyComponent" />
             </template>
             <template #fallback>
-              <div class="loading">
-                <el-skeleton :rows="5" animated />
+              <div class="loading-placeholder">
+                <el-skeleton :rows="10" animated />
               </div>
             </template>
           </Suspense>
+        </div>
+      </el-tab-pane>
+
+      <el-tab-pane label="图片懒加载" name="images">
+        <div class="section">
+          <p>滚动页面查看图片懒加载效果：</p>
+          <div class="image-container">
+            <template v-for="(image, index) in images" :key="index">
+              <LazyImage
+                :src="image"
+                :alt="'Image ' + (index + 1)"
+                class="lazy-image"
+              />
+            </template>
+          </div>
+          
+          <div class="load-more-container">
+            <el-button type="primary" @click="loadMore" :loading="isLoadingMore">
+              加载更多图片
+            </el-button>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -36,71 +56,137 @@
 import { ref, defineAsyncComponent } from 'vue'
 import LazyImage from './components/LazyImage.vue'
 
-// 异步导入重型组件
+const activeTab = ref('component')
+
+// 使用 defineAsyncComponent 定义异步组件
 const AsyncHeavyComponent = defineAsyncComponent(() =>
   import('./components/HeavyComponent.vue')
 )
 
-const activeTab = ref('images')
+const isLoading = ref(false)
+const isComponentLoaded = ref(false)
+const showComponent = ref(false)
 
-// 模拟图片URL列表
-const imageUrls = ref([
+const loadHeavyComponent = async () => {
+  if (isComponentLoaded.value) {
+    // 如果组件已加载，则切换显示/隐藏
+    showComponent.value = !showComponent.value
+    return
+  }
+  
+  isLoading.value = true
+  try {
+    // 标记组件为已加载状态
+    isComponentLoaded.value = true
+    showComponent.value = true
+  } catch (error) {
+    console.error('Failed to load component:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const resetComponent = () => {
+  isComponentLoaded.value = false
+  showComponent.value = false
+}
+
+// 图片数组
+const images = ref([
   'https://picsum.photos/800/400?random=1',
   'https://picsum.photos/800/400?random=2',
   'https://picsum.photos/800/400?random=3',
   'https://picsum.photos/800/400?random=4',
-  'https://picsum.photos/800/400?random=5',
-  'https://picsum.photos/800/400?random=6',
+  'https://picsum.photos/800/400?random=5'
 ])
 
-// 模拟重型组件数据
-const heavyComponentsData = ref([
-  {
-    title: '数据集 1',
-    data: Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      name: `Item ${i}`,
-      value: Math.random() * 1000
-    }))
-  }
-])
+const isLoadingMore = ref(false)
 
-const loadMore = () => {
-  const newIndex = heavyComponentsData.value.length + 1
-  heavyComponentsData.value.push({
-    title: `数据集 ${newIndex}`,
-    data: Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      name: `Item ${i}`,
-      value: Math.random() * 1000
-    }))
-  })
+const loadMore = async () => {
+  isLoadingMore.value = true
+  // 模拟加载延迟
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  
+  // 添加新的图片
+  const startIndex = images.value.length + 1
+  const newImages = Array.from({ length: 5 }, (_, i) => 
+    `https://picsum.photos/800/400?random=${startIndex + i}`
+  )
+  
+  images.value.push(...newImages)
+  isLoadingMore.value = false
 }
 </script>
 
 <style scoped>
-.app-container {
+.container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 80px; /* 为固定按钮留出空间 */
 }
 
-.image-grid {
+.section {
+  margin: 20px 0;
+}
+
+h1 {
+  margin-bottom: 30px;
+  color: var(--el-text-color-primary);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.image-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  padding: 20px 0;
+  margin-bottom: 40px;
 }
 
-.components-container {
-  padding: 20px 0;
+.lazy-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
-.heavy-components {
+.loading-placeholder {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background: var(--el-bg-color);
+}
+
+/* 固定加载更多按钮到底部 */
+.load-more-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.demo-tabs {
   margin-top: 20px;
 }
 
-.loading {
+/* 调整 tab 内容区域的样式 */
+:deep(.el-tabs__content) {
   padding: 20px;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 </style> 
