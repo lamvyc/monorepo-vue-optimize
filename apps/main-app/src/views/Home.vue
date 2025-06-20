@@ -25,11 +25,13 @@
         <p>展示了图片懒加载、组件异步加载和路由懒加载等优化技术。</p>
       </el-card>
     </div>
+    <BackToTop />
   </div>
 </template>
 
 <script setup lang="ts">
 import Navigation from '../components/Navigation.vue'
+import BackToTop from '../components/BackToTop.vue'
 </script>
 
 <style scoped>
