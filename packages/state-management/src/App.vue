@@ -65,7 +65,10 @@
           >
             <div class="task-item">
               <div class="task-content">
-                <el-checkbox v-model="task.completed" @change="() => handleToggleStatus(task.id)">
+                <el-checkbox 
+                  :model-value="task.completed"
+                  @update:model-value="() => handleToggleStatus(task.id)"
+                >
                   <span :class="{ completed: task.completed }">{{ task.title }}</span>
                 </el-checkbox>
                 <div class="task-meta">
@@ -75,9 +78,9 @@
               </div>
               <div class="task-actions">
                 <el-select
-                  v-model="task.priority"
+                  :model-value="task.priority"
                   size="small"
-                  @change="(val) => handlePriorityChange(task.id, val)"
+                  @update:model-value="(val: Task['priority']) => handlePriorityChange(task.id, val)"
                 >
                   <el-option label="高优先级" value="high" />
                   <el-option label="中优先级" value="medium" />
@@ -96,25 +99,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick, computed } from 'vue';
 import { useTaskStore, type Task } from './stores/task';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { storeToRefs } from 'pinia';
 
 const store = useTaskStore();
-const {
+
+// 使用storeToRefs来保持响应性
+const { 
   tasks,
   categories,
-  activeCategory,
   tasksByPriority,
   completedCount,
   incompletedCount,
-  addTask,
-  removeTask,
-  toggleTaskStatus,
-  updateTaskPriority,
+} = storeToRefs(store);
+
+const {
+  addTask: storeAddTask,
+  removeTask: storeRemoveTask,
+  toggleTaskStatus: storeToggleStatus,
+  updateTaskPriority: storeUpdatePriority,
   setActiveCategory,
   generateSampleTasks,
 } = store;
+
+// 使用计算属性来保持响应性
+const activeCategory = computed({
+  get: () => store.activeCategory,
+  set: (value: string) => setActiveCategory(value)
+});
 
 const newTask = ref({
   title: '',
@@ -124,7 +138,7 @@ const newTask = ref({
 });
 
 async function handleAddTask() {
-  const error = addTask(newTask.value);
+  const error = storeAddTask(newTask.value);
   if (error) {
     ElMessage.warning(error);
     return;
@@ -137,6 +151,10 @@ async function handleAddTask() {
 
 function handleCategoryChange(category: string) {
   setActiveCategory(category);
+  // 强制更新一下计算属性
+  nextTick(() => {
+    console.log('更新后的任务列表:', tasksByPriority);
+  });
 }
 
 async function handleRemoveTask(taskId: number) {
@@ -147,7 +165,7 @@ async function handleRemoveTask(taskId: number) {
       type: 'warning',
     });
 
-    if (removeTask(taskId)) {
+    if (storeRemoveTask(taskId)) {
       ElMessage.success('任务删除成功');
     } else {
       ElMessage.error('任务删除失败');
@@ -158,7 +176,7 @@ async function handleRemoveTask(taskId: number) {
 }
 
 async function handleToggleStatus(taskId: number) {
-  if (toggleTaskStatus(taskId)) {
+  if (storeToggleStatus(taskId)) {
     ElMessage({
       message: '任务状态更新成功',
       type: 'success',
@@ -170,7 +188,7 @@ async function handleToggleStatus(taskId: number) {
 }
 
 async function handlePriorityChange(taskId: number, priority: Task['priority']) {
-  if (updateTaskPriority(taskId, priority)) {
+  if (storeUpdatePriority(taskId, priority)) {
     ElMessage({
       message: '任务优先级更新成功',
       type: 'success',
@@ -303,5 +321,9 @@ onMounted(() => {
 
 :deep(.el-collapse-item__content) {
   padding-bottom: 10px;
+}
+
+:deep(.el-select) {
+  width: 120px;
 }
 </style>

@@ -105,28 +105,33 @@ export const useTaskStore = defineStore('tasks', () => {
       createdAt: new Date(),
     };
 
-    tasks.value.push(newTask);
+    tasks.value = [...tasks.value, newTask];
     return null;
   }
 
   function removeTask(taskId: number): boolean {
     const index = tasks.value.findIndex((task) => task.id === taskId);
     if (index > -1) {
-      tasks.value.splice(index, 1);
+      tasks.value = [...tasks.value.slice(0, index), ...tasks.value.slice(index + 1)];
       return true;
     }
     return false;
   }
 
   function toggleTaskStatus(taskId: number): boolean {
-    const task = tasks.value.find((task) => task.id === taskId);
-    if (task) {
+    const taskIndex = tasks.value.findIndex((task) => task.id === taskId);
+    if (taskIndex > -1) {
+      const task = tasks.value[taskIndex];
       const previousStatus = task.completed;
       try {
-        task.completed = !task.completed;
+        tasks.value = [
+          ...tasks.value.slice(0, taskIndex),
+          { ...task, completed: !task.completed },
+          ...tasks.value.slice(taskIndex + 1)
+        ];
         return true;
       } catch (error) {
-        task.completed = previousStatus;
+        tasks.value[taskIndex].completed = previousStatus;
         console.error('Failed to toggle task status:', error);
         return false;
       }
@@ -139,14 +144,19 @@ export const useTaskStore = defineStore('tasks', () => {
       return false;
     }
 
-    const task = tasks.value.find((task) => task.id === taskId);
-    if (task) {
+    const taskIndex = tasks.value.findIndex((task) => task.id === taskId);
+    if (taskIndex > -1) {
+      const task = tasks.value[taskIndex];
       const previousPriority = task.priority;
       try {
-        task.priority = priority;
+        tasks.value = [
+          ...tasks.value.slice(0, taskIndex),
+          { ...task, priority },
+          ...tasks.value.slice(taskIndex + 1)
+        ];
         return true;
       } catch (error) {
-        task.priority = previousPriority;
+        tasks.value[taskIndex].priority = previousPriority;
         console.error('Failed to update task priority:', error);
         return false;
       }
