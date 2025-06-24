@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'state-management',
       component: () => import('./StateManagement.vue'),
     },
+    {
+      path: '/resource-compression',
+      name: 'resource-compression',
+      component: () => import('./ResourceCompression.vue'),
+    },
   ],
 });
 

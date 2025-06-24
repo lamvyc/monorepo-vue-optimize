@@ -21,12 +21,16 @@
         <el-icon><Management /></el-icon>
         状态管理优化
       </el-menu-item>
+      <el-menu-item index="/resource-compression">
+        <el-icon><Files /></el-icon>
+        资源压缩优化
+      </el-menu-item>
     </el-sub-menu>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import { House, Monitor, Memo, Loading, Management } from '@element-plus/icons-vue';
+import { House, Monitor, Memo, Loading, Management, Files } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>

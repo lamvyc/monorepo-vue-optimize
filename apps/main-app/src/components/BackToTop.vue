@@ -21,7 +21,7 @@ const props = withDefaults(
     duration?: number;
   }>(),
   {
-    visibilityHeight: 400,
+    visibilityHeight: 250,
     right: 40,
     offset: 40,
     duration: 300,
@@ -32,7 +32,7 @@ const visible = ref(false);
 
 // 节流函数
 const throttle = (fn: Function, delay: number) => {
-  let timer: NodeJS.Timeout | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
   return (...args: any[]) => {
     if (timer) return;
     timer = setTimeout(() => {

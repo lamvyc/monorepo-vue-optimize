@@ -24,6 +24,24 @@
         </template>
         <p>展示了图片懒加载、组件异步加载和路由懒加载等优化技术。</p>
       </el-card>
+      <el-card class="feature-card">
+        <template #header>
+          <div class="card-header">
+            <h3>状态管理优化</h3>
+            <el-button type="primary" @click="$router.push('/state-management')">查看示例</el-button>
+          </div>
+        </template>
+        <p>展示了使用 Pinia 进行状态管理，优化组件之间的数据共享和状态管理。</p>
+      </el-card>
+      <el-card class="feature-card">
+        <template #header>
+          <div class="card-header">
+            <h3>资源压缩优化</h3>
+            <el-button type="primary" @click="$router.push('/resource-compression')">查看示例</el-button>
+          </div>
+        </template>
+        <p>展示了使用 vite-plugin-compression 进行资源压缩，优化页面加载性能。</p>
+      </el-card>
     </div>
     <BackToTop />
   </div>
