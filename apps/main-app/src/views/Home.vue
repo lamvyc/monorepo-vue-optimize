@@ -42,6 +42,15 @@
         </template>
         <p>展示了使用 vite-plugin-compression 进行资源压缩，优化页面加载性能。</p>
       </el-card>
+      <el-card class="feature-card">
+        <template #header>
+          <div class="card-header">
+            <h3>渲染优化</h3>
+            <el-button type="primary" @click="$router.push('/render-optimization')">查看示例</el-button>
+          </div>
+        </template>
+        <p>展示了使用 KeepAlive 进行组件级缓存，优化渲染性能。</p>
+      </el-card>
     </div>
     <BackToTop />
   </div>

@@ -29,6 +29,11 @@ const router = createRouter({
       name: 'resource-compression',
       component: () => import('./ResourceCompression.vue'),
     },
+    {
+      path: '/render-optimization',
+      name: 'render-optimization',
+      component: () => import('./RenderOptimization.vue'),
+    },
   ],
 });
 

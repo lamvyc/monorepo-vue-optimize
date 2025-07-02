@@ -1,0 +1,17 @@
+{
+  "name": "@vue-monorepo/vue-source",
+  "version": "0.0.1",
+  "private": true,
+  "description": "学习与编写精简版 Vue3 源码实现 (reactivity / computed / watch 等)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vitest --watch",
+    "build": "tsc -p .",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^1.2.0"
+  }
+} 

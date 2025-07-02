@@ -1,36 +1,54 @@
 <template>
   <el-menu :router="true" mode="horizontal" :ellipsis="false" class="navigation">
     <el-menu-item index="/">
-      <el-icon><House /></el-icon>
+      <el-icon>
+        <House />
+      </el-icon>
       首页
     </el-menu-item>
     <el-sub-menu index="optimization">
       <template #title>
-        <el-icon><Monitor /></el-icon>
+        <el-icon>
+          <Monitor />
+        </el-icon>
         性能优化示例
       </template>
       <el-menu-item index="/memo">
-        <el-icon><Memo /></el-icon>
+        <el-icon>
+          <Memo />
+        </el-icon>
         v-memo 优化
       </el-menu-item>
       <el-menu-item index="/lazy-loading">
-        <el-icon><Loading /></el-icon>
+        <el-icon>
+          <Loading />
+        </el-icon>
         懒加载优化
       </el-menu-item>
       <el-menu-item index="/state-management">
-        <el-icon><Management /></el-icon>
+        <el-icon>
+          <Management />
+        </el-icon>
         状态管理优化
       </el-menu-item>
       <el-menu-item index="/resource-compression">
-        <el-icon><Files /></el-icon>
+        <el-icon>
+          <Files />
+        </el-icon>
         资源压缩优化
+      </el-menu-item>
+      <el-menu-item index="/render-optimization">
+        <el-icon>
+          <Cpu />
+        </el-icon>
+        渲染优化
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import { House, Monitor, Memo, Loading, Management, Files } from '@element-plus/icons-vue';
+import { House, Monitor, Memo, Loading, Management, Files, Cpu } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>
