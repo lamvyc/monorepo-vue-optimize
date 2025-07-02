@@ -23,4 +23,4 @@ pnpm --filter @vue-monorepo/vue-source build
 
 ---
 
-> 注意：本实现仅作学习用途，功能与性能与官方 Vue3 存在差异，请勿用于生产环境。 
+<!-- https://github.com/ustbhuangyi/vue-analysis -->
