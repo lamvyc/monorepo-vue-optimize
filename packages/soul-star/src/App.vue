@@ -1,35 +1,32 @@
 <template>
   <div class="app">
     <h1>3D Sphere Component</h1>
-    <ThreeSphere @ball-clicked="handleBallClick" :autoRotationSpeed="0.0005" :sphereRadius="4.85" :ballRadius="0.15"
-      :numPoints="50" />
+    <ThreeSphere
+      @ball-clicked="handleBallClick"
+      :autoRotationSpeed="0.0005"
+      :sphereRadius="4.85"
+      :ballRadius="0.15"
+      :numPoints="50"
+    />
     <div v-if="clickedBall" class="notification">
       Clicked: {{ clickedBall }}
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref } from 'vue';
 import ThreeSphere from './components/ThreeSphere/index.vue';
 
-export default {
-  name: 'App',
-  components: {
-    ThreeSphere
-  },
-  data() {
-    return {
-      clickedBall: null
-    }
-  },
-  methods: {
-    handleBallClick(label) {
-      this.clickedBall = label;
-      setTimeout(() => {
-        this.clickedBall = null;
-      }, 2000);
-    }
-  }
+// 点击的球体标签
+const clickedBall = ref<string | null>(null);
+
+// 处理球体点击事件
+function handleBallClick(label: string) {
+  clickedBall.value = label;
+  setTimeout(() => {
+    clickedBall.value = null;
+  }, 2000);
 }
 </script>
 
